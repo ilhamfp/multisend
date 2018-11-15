@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
+import requests
+
 from authentication_broker.model import *
 
-
+balance_service_url = 'http://127.0.0.1:9999/balance'
 auth_app = Flask(__name__)
 
 
@@ -27,7 +29,7 @@ def get_user():
             'error': 'User not found'
         })
 
-    return user.serialize()
+    return jsonify(user.serialize())
 
 
 @auth_app.route('/', methods=['POST'])
@@ -35,7 +37,22 @@ def register_user():
     email = request.form.get('email')
     password = request.form.get('password')
 
+    user = User.get_or_none(User.email == email)
+    if user is not None:
+        return jsonify({
+            'error': 'User already exists'
+        })
+
     user = User(email=email, password=password)
     user.save()
 
-    return user.serialize()
+    response = requests.post(balance_service_url, headers={'Authorization': user.access_token})
+    response = response.json()
+
+    if response.get('error'):
+        user.delete_instance()
+        return jsonify({
+            'error': 'Fail creating user'
+        })
+
+    return jsonify(user.serialize())

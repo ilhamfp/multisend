@@ -28,7 +28,7 @@ class User(BaseModel):
     access_token = CharField(default=generate_token)
 
     def serialize(self):
-        return model_to_dict(self, only=[self.id, self.email, self.access_token, self.updated_at, self.created_at])
+        return model_to_dict(self, only=[User.id, User.email, User.access_token, User.updated_at, User.created_at])
 
     class Meta:
         db_table = 'user'

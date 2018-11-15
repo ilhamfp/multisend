@@ -22,7 +22,7 @@ def _db_close(exc):
 
 @balance_app.route('/', methods=['GET'])
 def get_balance():
-    response = requests.get(auth_broker_url, headers = request.headers).json()
+    response = requests.get(auth_broker_url, headers= request.headers).json()
     if response.get('error'):
         return jsonify({
             'error': 'User not found'
@@ -40,7 +40,8 @@ def get_balance():
 
 @balance_app.route('/', methods=['POST'])
 def create_balance():
-    response = requests.get(auth_broker_url, headers=request.headers).json()
+    response = requests.get(auth_broker_url, headers=request.headers)
+    response = response.json()
     if response.get('error'):
         return jsonify({
             'error': 'User not found'
@@ -52,6 +53,7 @@ def create_balance():
             'error': 'Balance instance already exists'
         })
 
+    print(response)
     balance = Balance(user_id=response.get('id'))
     balance.save()
 
