@@ -18,10 +18,10 @@ class TrackingResponse(ComplexModel):
 
 
 class TrackingService(ServiceBase):
-    @rpc(Iterable(TrackingRequest), _returns=Iterable(TrackingResponse))
+    @rpc(Iterable(TrackingRequest), _returns=TrackingResponse)
     def get_tracking(ctx, tracking_request):
         tracking_request = list(tracking_request)
-        response = requests.get(BASE_URL + "/order/" + tracking_request[0].order_unique_id, json=data, headers={'Authorization' : tracking_request[0].secret_key}).json()
+        response = requests.get(BASE_URL + "order/" + tracking_request[0].order_unique_id, headers={'Authorization' : tracking_request[0].secret_key}).json()
         all_points = [x for x in response['points']]
         points = list(filter(lambda x: x['status'], [x for x in response['points']]))
         if response.get('error'):
@@ -33,7 +33,7 @@ class TrackingService(ServiceBase):
         else:
             return TrackingResponse(
                 status = str(len(points))+"/"+str(len(all_points))+" have been delivered",
-                current_location = "{"+str(response['points'][0]['lat'])+"}, {"+str(response['points'][0]['lng'])+"}",
+                current_location = "{"+str(response['points'][0]['to_lat'])+"}, {"+str(response['points'][0]['to_lng'])+"}",
                 additional_detail = response['points'][0]['status']
             )
 

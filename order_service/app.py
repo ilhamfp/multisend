@@ -43,7 +43,6 @@ def get_order_by_unique_id(unique_id):
         return jsonify({
             'error' : 'Order not found'
         })
-
     return jsonify(order.serialize())
 
 
