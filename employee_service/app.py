@@ -48,7 +48,7 @@ def register():
         user_id=response.get('id'),
         first_name=request.form.get('first_name'),
         last_name=request.form.get('last_name'),
-        bank_name=request.form.get('bank_name')
+        bank_name=request.form.get('bank_name'),
         bank_account_number = request.form.get('bank_account_number'),
         phone_number = request.form.get('phone_number'),
     )

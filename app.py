@@ -5,12 +5,8 @@ import requests
 from authentication_broker.app import *
 from balance_service.app import *
 from customer_service.app import *
-<<<<<<< HEAD
 from employee_service.app import *
-
-=======
 from order_service.app import *
->>>>>>> 68605e5a2222c9398af7ef1e187f03195ff67b00
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
