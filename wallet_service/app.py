@@ -69,7 +69,7 @@ class WalletService(ServiceBase):
 
 
 wallet_app = Application([WalletService],
-                         tns='soa.logistic.order',
+                         tns='soa.logistic.wallet',
                          in_protocol=Soap11(validator='lxml'),
                          out_protocol=Soap11()
 )

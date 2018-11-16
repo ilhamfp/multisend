@@ -27,11 +27,11 @@ employee_service_thread = threading.Thread(target=employee_app.run, args=[], kwa
 order_service_url = 'http://127.0.0.1:5004/'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004,  'threaded': True})
 
-place_order_service_url = 'http://127.0.0.1:5005/'
-place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
-
 wallet_service_url = 'http://127.0.0.1:5006/'
 wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
+
+place_order_service_url = 'http://127.0.0.1:5005/'
+place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
 tracking_service_url = 'http://127.0.0.1:5007'
 tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
@@ -128,4 +128,6 @@ if __name__ == '__main__':
     employee_service_thread.start()
     order_service_thread.start()
     place_order_service_thread.start()
+    wallet_service_thread.start()
+    tracking_service_thread.start()
     app.run(host='127.0.0.1', port=9999, threaded=True)

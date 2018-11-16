@@ -7,6 +7,7 @@ import requests
 BASE_URL = 'http://127.0.0.1:9999/'
 
 class TrackingRequest(ComplexModel):
+    secret_key = String
     order_unique_id = String
 
 
@@ -19,12 +20,12 @@ class TrackingResponse(ComplexModel):
 class TrackingService(ServiceBase):
     @rpc(Iterable(TrackingRequest), _returns=Iterable(TrackingResponse))
     def get_tracking(ctx, tracking_request):
-        response = requests.get(BASE_URL + "/order/" + tracking_request.order_unique_id, headers={'Authorization' : request.secret_key}).json()
+        response = requests.get(BASE_URL + "/order/" + tracking_request.order_unique_id, headers={'Authorization' : tracking_request.secret_key}).json()
         all_points = [x for x in response['points']]
         points = list(filter(lambda x: x['status'], [x for x in response['points']]))
         if response.get('error'):
             return TrackingResponse(
-                status = "error",
+                status = "Fail: "+response.get('error'),
                 current_location = "error",
                 additional_detail = "error"
             )

@@ -56,12 +56,12 @@ class OrderService(ServiceBase):
 
                 data['items'].append(item)
 
-            response = requests.post(BASE_URL + 'order', json=data, headers=headers).json()
+            response = requests.post(BASE_URL + 'order', json=data, headers={'Authorization' : order_requests[0].sender_secret_key}).json()
             for _ in range(len(order_requests)):
                 if response.get('error'):
                     responses.append(OrderResponse(
-                        status="Fail",
-                        order_unique_id=response['unique_id']
+                        status="Fail: "+response.get('error'),
+                        order_unique_id="fail" #response['unique_id']
                     ))
                 else:
                     responses.append(OrderResponse(
