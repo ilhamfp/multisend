@@ -8,6 +8,7 @@ from customer_service.app import *
 from employee_service.app import *
 from order_service.app import *
 from place_order_service.app import *
+from wallet_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
@@ -27,6 +28,9 @@ order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'
 
 place_order_service_url = 'http://127.0.0.1:5005'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
+
+wallet_service_url = 'http://127.0.0.1:5006'
+wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -90,6 +94,16 @@ def place_order_proxy():
         response = requests.get(place_order_service_url + '?wsdl', headers=request.headers)
     else:
         response = requests.post(place_order_service_url, headers=request.headers, data=request.data)
+
+    return response.text, dict(response.headers)
+
+
+@app.route('/wallet', methods=['GET', 'POST'])
+def wallet_proxy():
+    if request.method == 'GET':
+        response = requests.get(wallet_service_url + '?wsdl', headers=request.headers)
+    else:
+        response = requests.post(wallet_service_url, headers=request.headers, data=request.data)
 
     return response.text, dict(response.headers)
 
