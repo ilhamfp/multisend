@@ -9,13 +9,13 @@ from order_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
-auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5000})
+auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5000, 'threaded': True})
 
 balance_service_url = 'http://127.0.0.1:5001/'
-balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001})
+balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001, 'threaded': True})
 
 customer_service_url = 'http://127.0.0.1:5002'
-customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002})
+customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002, 'threaded': True})
 
 order_service_url = 'http://127.0.0.1:5004'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004})
@@ -58,5 +58,9 @@ if __name__ == '__main__':
     auth_broker_thread.start()
     balance_service_thread.start()
     customer_service_thread.start()
+<<<<<<< HEAD
     order_service_thread.start()
     app.run(host='127.0.0.1', port=9999)
+=======
+    app.run(host='127.0.0.1', port=9999, threaded=True)
+>>>>>>> 184fce7a7bb53a87e440677117bdbd927b131f86
