@@ -84,7 +84,6 @@ def employee_proxy(varargs=''):
 @app.route('/order', methods=['GET', 'POST'])
 @app.route('/order/<path:varargs>', methods=['GET', 'POST'])
 def order_proxy(varargs=''):
-    varargs = '/' + varargs
     if request.method == 'GET':
         response = requests.get(order_service_url + varargs, params=request.args, headers=request.headers)
     else:

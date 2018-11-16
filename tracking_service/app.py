@@ -19,7 +19,7 @@ class TrackingResponse(ComplexModel):
 class TrackingService(ServiceBase):
     @rpc(Iterable(TrackingRequest), _returns=Iterable(TrackingResponse))
     def get_tracking(ctx, tracking_request):
-        response = requests.get(BASE_URL + "/order/" + tracking_request.order_unique_id, json=data, headers=headers).json()
+        response = requests.get(BASE_URL + "/order/" + tracking_request.order_unique_id, headers={'Authorization' : request.secret_key}).json()
         all_points = [x for x in response['points']]
         points = list(filter(lambda x: x['status'], [x for x in response['points']]))
         if response.get('error'):
@@ -43,4 +43,4 @@ tracking_app = Application([TrackingService],
 )
 
 wsgi_tracking = WsgiApplication(tracking_app)
-tracking_server = make_server('0.0.0.0', 5006, wsgi_tracking)
+tracking_server = make_server('0.0.0.0', 5007, wsgi_tracking)
