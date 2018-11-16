@@ -50,7 +50,7 @@ def create_order():
     pprint(vars(order))
 
     try:
-        print(order.save())
+        order.save()
     except:
         return jsonify({
             'error': 'Missing one or more field'

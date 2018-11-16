@@ -20,7 +20,6 @@ class BaseModel(Model):
 
 
 class Order(BaseModel):
-    id = IntegerField()
     cust_id = IntegerField()
     emp_id = IntegerField()
 
