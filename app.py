@@ -33,53 +33,65 @@ place_order_service_thread = threading.Thread(target=place_order_server.serve_fo
 @app.route('/auth/<path:varargs>', methods=['GET', 'POST'])
 def auth_broker_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(auth_broker_url + varargs, headers=request.headers, params=request.args).text
+        response = requests.get(auth_broker_url + varargs, headers=request.headers, params=request.args)
     else:
-        return requests.post(auth_broker_url + varargs, headers=request.headers, json=request.json).text
+        response = requests.post(auth_broker_url + varargs, headers=request.headers, json=request.json)
+
+    return response.text, dict(response.headers)
 
 
 @app.route('/balance', methods=['GET', 'POST'])
 @app.route('/balance/<path:varargs>', methods=['GET', 'POST'])
 def balance_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(balance_service_url + varargs, headers=request.headers, params=request.args).text
+        response = requests.get(balance_service_url + varargs, headers=request.headers, params=request.args)
     else:
-        return requests.post(balance_service_url + varargs, headers=request.headers, json=request.json).text
+        response = requests.post(balance_service_url + varargs, headers=request.headers, json=request.json)
+
+    return response.text, dict(response.headers)
 
 
 @app.route('/customer', methods=['GET', 'POST'])
 @app.route('/customer/<path:varargs>', methods=['GET', 'POST'])
 def customer_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(customer_service_url + varargs, headers=request.headers, params=request.args).text
+        response = requests.get(customer_service_url + varargs, headers=request.headers, params=request.args)
     else:
-        return requests.post(customer_service_url + varargs, headers=request.headers, json=request.json).text
+        response = requests.post(customer_service_url + varargs, headers=request.headers, json=request.json)
+
+    return response.text, dict(response.headers)
 
 
 @app.route('/employee', methods=['GET', 'POST'])
 @app.route('/employee/<path:varargs>', methods=['GET', 'POST'])
 def employee_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(employee_service_url + varargs, headers=request.headers, params=request.args).text
+        response = requests.get(employee_service_url + varargs, headers=request.headers, params=request.args)
     else:
-        return requests.post(employee_service_url + varargs, headers=request.headers, json=request.json).text
+        response = requests.post(employee_service_url + varargs, headers=request.headers, json=request.json)
+
+    return response.text, dict(response.headers)
 
 
 @app.route('/order', methods=['GET', 'POST'])
 @app.route('/order/<path:varargs>', methods=['GET', 'POST'])
 def order_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(order_service_url + varargs, params=request.args, headers=request.headers).text
+        response = requests.get(order_service_url + varargs, params=request.args, headers=request.headers)
     else:
-        return requests.post(order_service_url + varargs, headers=request.headers, json=request.json).text
+        response = requests.post(order_service_url + varargs, headers=request.headers, json=request.json)
+
+    return response.text, dict(response.headers)
 
 
 @app.route('/place-order', methods=['GET', 'POST'])
 def place_order_proxy():
     if request.method == 'GET':
-        return requests.get(place_order_service_url + '?wsdl', headers=request.headers).text
+        response = requests.get(place_order_service_url + '?wsdl', headers=request.headers)
     else:
-        return requests.post(place_order_service_url, headers=request.headers, data=request.data).text
+        response = requests.post(place_order_service_url, headers=request.headers, data=request.data)
+
+    return response.text, dict(response.headers)
 
 
 if __name__ == '__main__':
