@@ -16,12 +16,12 @@ client.subscribe('calculate-cost', async function({ task, taskService }) {
   const distance = task.variables.get('distance');
   const item = task.variables.get('item');
   cost = distance*10000;
-  console.log(`Lewat calculate-cost`);
+  console.log(`Lewat calculate-cost `);
   console.log(`The cost to send '${item}' is Rp ${cost},- `);
 
   const variables = new Variables();
-  variables.set('user_id', task.variables.getTyped('user_id'));
-  variables.set('item', task.variables.getTyped('item'));
+  variables.set('user_id', task.variables.getTyped('user_id').value);
+  variables.set('item', task.variables.getTyped('item').value);
   variables.setTyped('cost', {
                           value: cost,
                           type: "long",
@@ -37,17 +37,21 @@ client.subscribe('check-balance', async function({ task, taskService }) {
 
   // Get a process variable
   const cost = task.variables.get('cost');
-  console.log(`Lewat check-balance`);
+  const item = task.variables.get('item');
+  console.log(`Lewat check-balance  ${item}`);
 
   sufficient = true;
   if (cost > 1000000) {
     sufficient = false;
+    console.log(`Balance is not sufficient`);
+  } else {
+    console.log(`Balance is sufficient`);
   }
 
   const variables = new Variables();
-  variables.set('user_id', task.variables.getTyped('user_id'));
-  variables.set('item', task.variables.getTyped('item'));
-  variables.set('cost', task.variables.getTyped('cost'));
+  variables.set('user_id', task.variables.getTyped('user_id').value);
+  variables.set('item', task.variables.getTyped('item').value);
+  variables.set('cost', task.variables.getTyped('cost').value);
   variables.setTyped('sufficient', {
                           value: sufficient,
                           type: "boolean",
@@ -67,9 +71,9 @@ client.subscribe('deduct-balance', async function({ task, taskService }) {
 
 
   const variables = new Variables();
-  variables.set('user_id', task.variables.getTyped('user_id'));
-  variables.set('item', task.variables.getTyped('item'));
-  variables.set('cost', task.variables.getTyped('cost'));
+  variables.set('user_id', task.variables.getTyped('user_id').value);
+  variables.set('item', task.variables.getTyped('item').value);
+  variables.set('cost', task.variables.getTyped('cost').value);
   // Complete the task
   await taskService.complete(task, variables);
 });

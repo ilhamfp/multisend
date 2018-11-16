@@ -2,15 +2,23 @@
 
 Tugas besar Pembangunan Perangkat Lunak Berorientasi Service  
 
+## Prerequisites
+1. Camunda Modeler  
+2. Camunda BPM
+3. NodeJS >= v8.9.4  
 
 ## How to run  
 ### Workers  
 1. Go to order-worker directory  
-2. Run   
+2. Run  
+```
+npm init order-worker -y
+```
+3. Run   
 ```
 npm install -s camunda-external-task-client-js
 ```
-2. Run   
+4. Run   
 ```
 node ./worker.js
 ```
@@ -40,3 +48,6 @@ with application/json body
     }
 }
 ```
+
+
+
