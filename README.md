@@ -2,13 +2,22 @@
 
 Tugas besar Pembangunan Perangkat Lunak Berorientasi Service  
 
-## Prerequisites
+## How to test each task service
+1. Run
+```
+pip install -r requirement.txt
+```
+2. Run
+```
+python test_task_service.py
+```
+
+## How to run BPM
+##% Prerequisites
 1. Camunda Modeler  
 2. Camunda BPM
 3. NodeJS >= v8.9.4  
-
-## How to run  
-### Workers  
+### Run Workers  
 1. Go to order-worker directory  
 2. Run  
 ```
@@ -23,7 +32,7 @@ npm install -s camunda-external-task-client-js
 node ./worker.js
 ```
 
-### BPM  
+### Run BPM  
 1. Open 'order.bpmn' on Camunda Modeler and deploy as 'Order'.  
 2. Open Postman, send POST request to 
 ```
