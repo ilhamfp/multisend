@@ -38,7 +38,7 @@ def get_employee():
 
 @employee_app.route('/', methods=['POST'])
 def register():
-    response = requests.post(auth_broker_url, headers=request.headers, data=request.form).json()
+    response = requests.post(auth_broker_url, headers=request.headers, json=request.json).json()
     if response.get('error'):
         return jsonify({
             'error': 'Fail creating employee account'
@@ -46,11 +46,11 @@ def register():
 
     employee = Employee(
         user_id=response.get('id'),
-        first_name=request.form.get('first_name'),
-        last_name=request.form.get('last_name'),
-        bank_name=request.form.get('bank_name'),
-        bank_account_number = request.form.get('bank_account_number'),
-        phone_number = request.form.get('phone_number'),
+        first_name=request.json.get('first_name'),
+        last_name=request.json.get('last_name'),
+        bank_name=request.json.get('bank_name'),
+        bank_account_number = request.json.get('bank_account_number'),
+        phone_number = request.json.get('phone_number'),
     )
 
     try:

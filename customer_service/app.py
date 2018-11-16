@@ -40,7 +40,7 @@ def get_customer():
 
 @customer_app.route('/', methods=['POST'])
 def register():
-    response = requests.post(auth_broker_url, headers=request.headers, data=request.form).json()
+    response = requests.post(auth_broker_url, headers=request.headers, json=request.json).json()
     if response.get('error'):
         return jsonify({
             'error': 'Fail creating customer account'
@@ -48,8 +48,8 @@ def register():
 
     customer = Customer(
         user_id=response.get('id'),
-        first_name=request.form.get('first_name'),
-        last_name=request.form.get('last_name')
+        first_name=request.json.get('first_name'),
+        last_name=request.json.get('last_name')
     )
 
     try:

@@ -28,11 +28,20 @@ def get_order():
             'error': 'Invalid Auth'
         })
 
-    order = Order.get_or_none(Order.id == response.get('id'))
+    orders = Order.select().where(Order.cust_id == response.get('id'))
+
+    data = [order.serialize() for order in orders]
+
+    return jsonify(data)
+
+
+@order_app.route('/<unique_id>', methods=['GET'])
+def get_order_by_unique_id(unique_id):
+    order = Order.get_or_none(Order.unique_id == unique_id)
 
     if order is None:
         return jsonify({
-            'error': 'Order with that ID is not found'
+            'error' : 'Order not found'
         })
 
     return jsonify(order.serialize())

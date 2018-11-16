@@ -34,8 +34,8 @@ def get_user():
 
 @auth_app.route('/', methods=['POST'])
 def register_user():
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.json.get('email')
+    password = request.json.get('password')
 
     user = User.get_or_none(User.email == email)
     if user is not None:
