@@ -39,12 +39,12 @@ print(logistic_client.service.deposit(deposit_request))
 
 print("\n\n~~tracking~~")
 logistic_client = Client('http://localhost:5007/?wsdl')
-print("debug1")
+tracking_request_array = logistic_client.factory.create("s0:TrackingRequestArray")
 tracking_request = logistic_client.factory.create("s0:TrackingRequest")
-print("debug1")
 tracking_request.order_unique_id = 'SvVoUHuZfuSOuTuNVXgeSjVTvieEHp'
 tracking_request.secret_key = 'OWJytwsEELQIsrnSbTonZrETDQDLkV'
-print(logistic_client.service.get_tracking(tracking_request))
+tracking_request_array.TrackingRequest.append(tracking_request)
+print(logistic_client.service.get_tracking(tracking_request_array))
 
 
 
