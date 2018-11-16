@@ -48,7 +48,7 @@ class WalletService(ServiceBase):
             "amount": request.amount
         }
 
-        r = requests.post(BASE_URL + "balance/withdraw", headers={'Authorization': request.secret_key}, form=data)
+        r = requests.post(BASE_URL + "balance/withdraw", headers={'Authorization': request.secret_key}, json=data)
         result = r.json()
         if result.get('error') is None:
             r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
@@ -75,4 +75,4 @@ wallet_app = Application([WalletService],
 )
 
 wsgi_wallet = WsgiApplication(wallet_app)
-wallet_server = make_server('0.0.0.0', 5005, wsgi_wallet)
+wallet_server = make_server('0.0.0.0', 5006, wsgi_wallet)

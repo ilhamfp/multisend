@@ -17,19 +17,19 @@ auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'hos
 balance_service_url = 'http://127.0.0.1:5001/'
 balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001, 'threaded': True})
 
-customer_service_url = 'http://127.0.0.1:5002'
+customer_service_url = 'http://127.0.0.1:5002/'
 customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002, 'threaded': True})
 
-employee_service_url = 'http://127.0.0.1:5002'
+employee_service_url = 'http://127.0.0.1:5003/'
 employee_service_thread = threading.Thread(target=employee_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5003, 'threaded': True})
 
-order_service_url = 'http://127.0.0.1:5004'
+order_service_url = 'http://127.0.0.1:5004/'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004,  'threaded': True})
 
-place_order_service_url = 'http://127.0.0.1:5005'
+place_order_service_url = 'http://127.0.0.1:5005/'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
-wallet_service_url = 'http://127.0.0.1:5006'
+wallet_service_url = 'http://127.0.0.1:5006/'
 wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
 
 
