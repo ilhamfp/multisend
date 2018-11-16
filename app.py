@@ -7,6 +7,7 @@ from balance_service.app import *
 from customer_service.app import *
 from employee_service.app import *
 from order_service.app import *
+from place_order_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
@@ -23,6 +24,9 @@ employee_service_thread = threading.Thread(target=employee_app.run, args=[], kwa
 
 order_service_url = 'http://127.0.0.1:5004'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004,  'threaded': True})
+
+place_order_service_url = 'http://127.0.0.1:5005'
+place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -51,6 +55,7 @@ def customer_proxy(varargs=''):
     else:
         return requests.post(customer_service_url + varargs, headers=request.headers, json=request.json).text
 
+
 @app.route('/employee', methods=['GET', 'POST'])
 @app.route('/employee/<path:varargs>', methods=['GET', 'POST'])
 def employee_proxy(varargs=''):
@@ -59,13 +64,23 @@ def employee_proxy(varargs=''):
     else:
         return requests.post(employee_service_url + varargs, headers=request.headers, json=request.json).text
 
+
 @app.route('/order', methods=['GET', 'POST'])
 @app.route('/order/<path:varargs>', methods=['GET', 'POST'])
 def order_proxy(varargs=''):
     if request.method == 'GET':
-        return requests.get(order_service_url + varargs, headers=request.headers, params=request.args).text
+        return requests.get(order_service_url + varargs, params=request.args, headers=request.headers).text
     else:
         return requests.post(order_service_url + varargs, headers=request.headers, json=request.json).text
+
+
+@app.route('/place-order', methods=['GET', 'POST'])
+def place_order_proxy():
+    if request.method == 'GET':
+        return requests.get(place_order_service_url + '?wsdl', headers=request.headers).text
+    else:
+        return requests.post(place_order_service_url, headers=request.headers, data=request.data).text
+
 
 if __name__ == '__main__':
     auth_broker_thread.start()
@@ -73,4 +88,5 @@ if __name__ == '__main__':
     customer_service_thread.start()
     employee_service_thread.start()
     order_service_thread.start()
+    place_order_service_thread.start()
     app.run(host='127.0.0.1', port=9999, threaded=True)
