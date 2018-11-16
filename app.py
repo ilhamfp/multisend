@@ -9,6 +9,7 @@ from employee_service.app import *
 from order_service.app import *
 from place_order_service.app import *
 from tracking_service.app import *
+from wallet_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
@@ -17,19 +18,22 @@ auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'hos
 balance_service_url = 'http://127.0.0.1:5001/'
 balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001, 'threaded': True})
 
-customer_service_url = 'http://127.0.0.1:5002'
+customer_service_url = 'http://127.0.0.1:5002/'
 customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002, 'threaded': True})
 
-employee_service_url = 'http://127.0.0.1:5002'
+employee_service_url = 'http://127.0.0.1:5003/'
 employee_service_thread = threading.Thread(target=employee_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5003, 'threaded': True})
 
-order_service_url = 'http://127.0.0.1:5004'
+order_service_url = 'http://127.0.0.1:5004/'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004,  'threaded': True})
 
-place_order_service_url = 'http://127.0.0.1:5005'
+place_order_service_url = 'http://127.0.0.1:5005/'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
-tracking_service_url = 'http://127.0.0.1:5006'
+wallet_service_url = 'http://127.0.0.1:5006/'
+wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
+
+tracking_service_url = 'http://127.0.0.1:5007'
 tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
 
 
@@ -98,6 +102,17 @@ def place_order_proxy():
 
     return response.text, dict(response.headers)
 
+
+@app.route('/wallet', methods=['GET', 'POST'])
+def wallet_proxy():
+    if request.method == 'GET':
+        response = requests.get(wallet_service_url + '?wsdl', headers=request.headers)
+    else:
+        response = requests.post(wallet_service_url, headers=request.headers, data=request.data)
+
+    return response.text, dict(response.headers)
+
+
 @app.route('/tracking', methods=['GET', 'POST'])
 def tracking_proxy():
     if request.method == 'GET':
@@ -106,7 +121,6 @@ def tracking_proxy():
         response = requests.post(tracking_service_url, headers=request.headers, data=request.data)
 
     return response.text, dict(response.headers)
-
 
 if __name__ == '__main__':
     auth_broker_thread.start()

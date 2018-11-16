@@ -53,8 +53,36 @@ def create_balance():
             'error': 'Balance instance already exists'
         })
 
-    print(response)
     balance = Balance(user_id=response.get('id'))
     balance.save()
 
     return jsonify(balance.serialize())
+
+
+@balance_app.route('/withdraw', methods=['POST'])
+def withdraw_balance():
+    response = requests.get(auth_broker_url, headers=request.headers).json()
+    if response.get('error'):
+        return jsonify({
+            'error': 'User not found'
+        })
+
+    balance = Balance.get_or_none(Balance.user_id == response.get('id'))
+
+    if balance is None:
+        return jsonify({
+            'error': 'Balance for that user is not found'
+        })
+
+    amount = request.json.get('amount')
+
+    if amount > balance.balance:
+        return jsonify({
+            'error': 'Balance not enough'
+        })
+
+    balance.balance -= amount
+    balance.save()
+
+    return jsonify(balance.serialize())
+
