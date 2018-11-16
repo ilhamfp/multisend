@@ -9,11 +9,15 @@ pip install -r requirement.txt
 ```
 2. Run
 ```
+python app.py
+```
+3. Run
+```
 python test_task_service.py
 ```
 
 ## How to run BPM
-##% Prerequisites
+## Prerequisites
 1. Camunda Modeler  
 2. Camunda BPM
 3. NodeJS >= v8.9.4  
