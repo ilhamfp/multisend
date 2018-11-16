@@ -29,7 +29,7 @@ def get_order():
             'error': 'Auth failed'
         })
 
-    order = Order.get_or_none(order.id == response.get('id'))
+    order = Order.get_or_none(Order.id == response.get('id'))
 
     if order is None:
         return jsonify({
