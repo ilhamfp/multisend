@@ -13,7 +13,7 @@ class BaseModel(Model):
         return super(BaseModel, self).save(*args, **kwargs)
 
     def serialize(self):
-        return model_to_dict(self, backrefs=True, recurse=False)
+        return model_to_dict(self, backrefs=True, recurse=True)
 
     class Meta:
         database = db
@@ -22,6 +22,21 @@ class BaseModel(Model):
 class Order(BaseModel):
     cust_id = IntegerField()
     emp_id = IntegerField()
+    from_lat = FloatField()
+    from_lng = FloatField()
+    additional_detail = TextField(default='')
 
     class Meta:
         db_table = 'order'
+
+
+class OrderPoint(BaseModel):
+    order = ForeignKeyField(Order, backref='points')
+    receiver_name = CharField()
+    to_lat = FloatField()
+    to_lng = FloatField()
+    status = IntegerField(default=0)
+    weight = FloatField()
+
+    class Meta:
+        table_name = 'order_point'

@@ -3,8 +3,6 @@ import requests
 
 from order_service.model import *
 
-from pprint import pprint
-
 
 auth_broker_url = 'http://127.0.0.1:9999/auth'
 order_app = Flask(__name__)
@@ -21,12 +19,13 @@ def _db_close(exc):
     if not db.is_closed():
         db.close()
 
+
 @order_app.route('/', methods=['GET'])
 def get_order():
     response = requests.get(auth_broker_url, headers=request.headers).json()
     if response.get('error'):
         return jsonify({
-            'error': 'Auth failed'
+            'error': 'Invalid Auth'
         })
 
     order = Order.get_or_none(Order.id == response.get('id'))
@@ -36,25 +35,48 @@ def get_order():
             'error': 'Order with that ID is not found'
         })
 
-    return jsonify(customer.serialize())
+    return jsonify(order.serialize())
 
 
 @order_app.route('/', methods=['POST'])
 def create_order():
-    order = Order(
-        id=request.form.get('id'),
-        cust_id=request.form.get('cust_id'),
-        emp_id=request.form.get('emp_id')
-    )
+    if len(request.json.get('items')) == 0:
+        return jsonify({
+            'error': 'You must specify at least 1 item'
+        })
 
-    pprint(vars(order))
+    response = requests.get(auth_broker_url, headers=request.headers).json()
+    if response.get('error'):
+        return jsonify({
+            'error': 'Invalid Auth'
+        })
+
+    order = Order(
+        cust_id=response.get('id'),
+        emp_id=request.json.get('emp_id'),
+        from_lat=request.json.get('from_lat'),
+        from_lng=request.json.get('from_lng'),
+        additional_detail=request.json.get('additional_detail')
+    )
 
     try:
         order.save()
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({
             'error': 'Missing one or more field'
         })
+
+    for item in request.json.get('items'):
+        order_point = OrderPoint(
+            order=order,
+            receiver_name=item['receiver_name'],
+            to_lat=item['to_lat'],
+            to_lng=item['to_lng'],
+            weight=item['weight']
+        )
+
+        order_point.save()
 
     data = {**order.serialize()}
 
