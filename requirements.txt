@@ -5,10 +5,12 @@ Flask==1.0.2
 idna==2.7
 itsdangerous==1.1.0
 Jinja2==2.10
+lxml==4.2.5
 MarkupSafe==1.1.0
 peewee==3.7.1
 pytz==2018.7
 requests==2.20.1
 spyne==2.12.14
+suds-py3==1.3.3.0
 urllib3==1.24.1
 Werkzeug==0.14.1
