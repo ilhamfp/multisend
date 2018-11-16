@@ -2,7 +2,10 @@ from playhouse.shortcuts import model_to_dict, dict_to_model
 from peewee import *
 from datetime import datetime
 
+from order_service.util import generate_token
+
 db = SqliteDatabase('order_service/data.db')
+
 
 class BaseModel(Model):
     updated_at = DateTimeField(default=datetime.now)
@@ -20,6 +23,7 @@ class BaseModel(Model):
 
 
 class Order(BaseModel):
+    unique_id = CharField(default=generate_token)
     cust_id = IntegerField()
     emp_id = IntegerField()
     from_lat = FloatField()
