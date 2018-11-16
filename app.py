@@ -9,13 +9,13 @@ from customer_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
-auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5000})
+auth_broker_thread = threading.Thread(target=auth_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5000, 'threaded': True})
 
 balance_service_url = 'http://127.0.0.1:5001/'
-balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001})
+balance_service_thread = threading.Thread(target=balance_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5001, 'threaded': True})
 
 customer_service_url = 'http://127.0.0.1:5002'
-customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002})
+customer_service_thread = threading.Thread(target=customer_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5002, 'threaded': True})
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -49,4 +49,4 @@ if __name__ == '__main__':
     auth_broker_thread.start()
     balance_service_thread.start()
     customer_service_thread.start()
-    app.run(host='127.0.0.1', port=9999)
+    app.run(host='127.0.0.1', port=9999, threaded=True)
