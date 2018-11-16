@@ -8,6 +8,7 @@ from customer_service.app import *
 from employee_service.app import *
 from order_service.app import *
 from place_order_service.app import *
+from tracking_service.app import *
 
 app = Flask(__name__)
 auth_broker_url = 'http://127.0.0.1:5000/'
@@ -27,6 +28,9 @@ order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'
 
 place_order_service_url = 'http://127.0.0.1:5005'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
+
+tracking_service_url = 'http://127.0.0.1:5006'
+tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -76,6 +80,7 @@ def employee_proxy(varargs=''):
 @app.route('/order', methods=['GET', 'POST'])
 @app.route('/order/<path:varargs>', methods=['GET', 'POST'])
 def order_proxy(varargs=''):
+    varargs = '/' + varargs
     if request.method == 'GET':
         response = requests.get(order_service_url + varargs, params=request.args, headers=request.headers)
     else:
@@ -90,6 +95,15 @@ def place_order_proxy():
         response = requests.get(place_order_service_url + '?wsdl', headers=request.headers)
     else:
         response = requests.post(place_order_service_url, headers=request.headers, data=request.data)
+
+    return response.text, dict(response.headers)
+
+@app.route('/tracking', methods=['GET', 'POST'])
+def tracking_proxy():
+    if request.method == 'GET':
+        response = requests.get(tracking_service_url + '?wsdl', headers=request.headers)
+    else:
+        response = requests.post(tracking_service_url, headers=request.headers, data=request.data)
 
     return response.text, dict(response.headers)
 
