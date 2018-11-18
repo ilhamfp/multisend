@@ -17,50 +17,73 @@ python test_task_service.py
 ```
 
 ## How to run BPM
-## Prerequisites
+
+### Prerequisites
 1. Camunda Modeler  
 2. Camunda BPM
-3. NodeJS >= v8.9.4  
-### Run Workers  
-1. Go to order-worker directory  
+3. NodeJS >= v8.9.4 
+
+### Running Workers
+1. Go to task-service-worker directory  
 2. Run  
 ```
-npm init order-worker -y
+npm init task-service-worker -y
 ```
 3. Run   
 ```
 npm install -s camunda-external-task-client-js
+npm install soap
 ```
 4. Run   
 ```
-node ./worker.js
+node ./task-service-worker.js
 ```
 
-### Run BPM  
-1. Open 'order.bpmn' on Camunda Modeler and deploy as 'Order'.  
+### Running task services
+1. Run on root directory
+```
+python app.py
+```
+
+### Running Withdrawal BPM
+1. Open 'withdrawal.bpmn' on Camunda Modeler and deploy as 'Withdrawal Service' with tenant id 1.
 2. Open Postman, send POST request to 
 ```
-'http://localhost:8080/engine-rest/process-definition/key/Process_1j8ecvq/start'
+http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/1/start
 ```
-with application/json body
+with json body  
 ```
 {
     "variables": {
-        "user_id":{
-            "value":"123ID",
+        "secret_key":{
+            "value":"vIywNgjTJTNwIHZCXyHTZgfBepWwCx",
             "type":"string"
         },
-        "distance": {
-            "value":10,
+        "amount": {
+            "value":1000,
             "type":"long"
-        },
-        "item": {
-            "value": "PPLOSSZ",
-            "type":"string"
         }
     }
 }
 ```
+
+3. For the intermediate catch even: open Postman, send POST request to
+```
+http://localhost:8080/engine-rest/message
+```
+with json body
+```
+{
+    "messageName" : "receive_confirmation",
+    "tenantId" : "1",
+    "processVariables" : {
+        "success" : {"value" : true, "type": "boolean"}
+    }
+}
+```
+
+
+## Other
 
 ### Creating User
 Send POST request to http://127.0.0.1:9999/auth with json body as:
