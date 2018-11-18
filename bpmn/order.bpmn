@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_18i33a2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
   <bpmn:collaboration id="Collaboration_1he5jfw">
-    <bpmn:participant id="logistic-provider" name="Logistic Service Provider " processRef="Process_1j8ecvq" />
+    <bpmn:participant id="logistic-provider" name="Logistic Service Provider " processRef="Process_1" />
     <bpmn:participant id="Participant_1xrt46x" name="Costumer" />
     <bpmn:messageFlow id="MessageFlow_1prue2f" sourceRef="IntermediateThrowEvent_16hk6la" targetRef="Participant_1xrt46x" />
     <bpmn:messageFlow id="MessageFlow_1xc37gg" sourceRef="IntermediateThrowEvent_1e9v38h" targetRef="Participant_1xrt46x" />
     <bpmn:messageFlow id="MessageFlow_0ib4f9s" sourceRef="Participant_1xrt46x" targetRef="StartEvent_0sogsr8" />
     <bpmn:messageFlow id="MessageFlow_1pjjj1e" sourceRef="Participant_1xrt46x" targetRef="IntermediateThrowEvent_1laia6p" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1j8ecvq" name="Logistic Service Provider " isExecutable="true">
+  <bpmn:process id="Process_1" name="Logistic Service Provider " isExecutable="true">
     <bpmn:laneSet id="LaneSet_1qjh8u6">
       <bpmn:lane id="Lane_1af0qhe" name="Systemst">
         <bpmn:flowNodeRef>ExclusiveGateway_10fpdjd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_14dju60</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0bd1gk2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_10o27qa</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1r2esjd</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_0qlw491</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateThrowEvent_16hk6la</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_13aiawm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_05zyxjp</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_0sogsr8</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateThrowEvent_1laia6p</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_16697ct</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1undg8w</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_10o27qa</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0qlw491</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_16697ct</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_0vn4cgc" name="Courier">
-        <bpmn:flowNodeRef>Task_0ga691n</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_1n1oyj3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0umiy7a</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1od2gnw</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_18z8226</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateThrowEvent_1e9v38h</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0ga691n</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:sequenceFlow id="SequenceFlow_05z7me5" sourceRef="StartEvent_0sogsr8" targetRef="Task_05zyxjp" />
@@ -47,14 +47,10 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_01slpnf" sourceRef="Task_0qlw491" targetRef="IntermediateThrowEvent_16hk6la" />
     <bpmn:sequenceFlow id="SequenceFlow_1uz0ygm" sourceRef="Task_10o27qa" targetRef="ExclusiveGateway_14dju60" />
-    <bpmn:task id="Task_0ga691n" name="Check delivery completion">
-      <bpmn:incoming>SequenceFlow_09cx1m8</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0tmt4ka</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="SequenceFlow_09cx1m8" sourceRef="Task_0umiy7a" targetRef="Task_0ga691n" />
     <bpmn:sequenceFlow id="SequenceFlow_0tmt4ka" sourceRef="Task_0ga691n" targetRef="ExclusiveGateway_1n1oyj3" />
     <bpmn:sequenceFlow id="SequenceFlow_0df11tc" name="yes" sourceRef="ExclusiveGateway_1n1oyj3" targetRef="Task_0umiy7a">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bool&gt;=1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!deliveryComplete}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1n1oyj3" name="Is there any destination left">
       <bpmn:incoming>SequenceFlow_0tmt4ka</bpmn:incoming>
@@ -62,7 +58,7 @@
       <bpmn:outgoing>SequenceFlow_0xydyp6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0xydyp6" name="no" sourceRef="ExclusiveGateway_1n1oyj3" targetRef="Task_1od2gnw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bool&lt;1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${deliveryComplete}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_14dju60" name="Driver Found">
       <bpmn:incoming>SequenceFlow_1uz0ygm</bpmn:incoming>
@@ -70,7 +66,7 @@
       <bpmn:outgoing>SequenceFlow_0ks29cf</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0gx6gys" name="yes" sourceRef="ExclusiveGateway_14dju60" targetRef="ExclusiveGateway_0bd1gk2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bool&gt;=1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${found}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:parallelGateway id="ExclusiveGateway_0bd1gk2">
       <bpmn:incoming>SequenceFlow_0gx6gys</bpmn:incoming>
@@ -79,10 +75,6 @@
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1iwtbuy" sourceRef="ExclusiveGateway_0bd1gk2" targetRef="Task_0umiy7a" />
     <bpmn:sequenceFlow id="SequenceFlow_1eemb88" sourceRef="ExclusiveGateway_0bd1gk2" targetRef="IntermediateThrowEvent_1laia6p" />
-    <bpmn:task id="Task_10o27qa" name="Search for available driver">
-      <bpmn:incoming>SequenceFlow_18fyv25</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1uz0ygm</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="SequenceFlow_18fyv25" sourceRef="Task_1undg8w" targetRef="Task_10o27qa" />
     <bpmn:sequenceFlow id="SequenceFlow_15v9ve0" name="yes" sourceRef="ExclusiveGateway_10fpdjd" targetRef="Task_1undg8w">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${sufficient}</bpmn:conditionExpression>
@@ -101,18 +93,13 @@
       <bpmn:incoming>SequenceFlow_15xu05v</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0ks29cf" name="no" sourceRef="ExclusiveGateway_14dju60" targetRef="Task_0qlw491">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${bool&lt;1}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!found}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:task id="Task_0qlw491" name="Cancel Order">
-      <bpmn:incoming>SequenceFlow_1496dpx</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0ks29cf</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_01slpnf</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="SequenceFlow_15xu05v" sourceRef="IntermediateThrowEvent_16hk6la" targetRef="EndEvent_1r2esjd" />
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_16hk6la" name="send order status">
       <bpmn:incoming>SequenceFlow_01slpnf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_15xu05v</bpmn:outgoing>
-      <bpmn:messageEventDefinition messageRef="Message_1w271yb" />
+      <bpmn:messageEventDefinition messageRef="Message_1w271yb" camunda:type="external" camunda:topic="send-order-status" />
     </bpmn:intermediateThrowEvent>
     <bpmn:endEvent id="EndEvent_18z8226" name="delivery completed">
       <bpmn:incoming>SequenceFlow_0sz27w6</bpmn:incoming>
@@ -121,7 +108,7 @@
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1e9v38h" name="send order status">
       <bpmn:incoming>SequenceFlow_1bx49a2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0sz27w6</bpmn:outgoing>
-      <bpmn:messageEventDefinition messageRef="Message_1glee4z" />
+      <bpmn:messageEventDefinition messageRef="Message_1glee4z" camunda:type="external" camunda:topic="send-order-status" />
     </bpmn:intermediateThrowEvent>
     <bpmn:endEvent id="EndEvent_13aiawm" name="order succeed">
       <bpmn:incoming>SequenceFlow_1vfsto5</bpmn:incoming>
@@ -140,17 +127,30 @@
       <bpmn:messageEventDefinition messageRef="Message_0eoelo1" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1vfsto5" sourceRef="IntermediateThrowEvent_1laia6p" targetRef="EndEvent_13aiawm" />
+    <bpmn:serviceTask id="Task_1undg8w" name="Deduct balance" camunda:type="external" camunda:topic="deduct-balance-order">
+      <bpmn:incoming>SequenceFlow_15v9ve0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18fyv25</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_10o27qa" name="Search for available driver" camunda:type="external" camunda:topic="search-driver">
+      <bpmn:incoming>SequenceFlow_18fyv25</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1uz0ygm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_0qlw491" name="Cancel Order" camunda:type="external" camunda:topic="cancel-order">
+      <bpmn:incoming>SequenceFlow_1496dpx</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0ks29cf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_01slpnf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_0ga691n" name="Check delivery completion" camunda:type="external" camunda:topic="check-delivery-completion">
+      <bpmn:incoming>SequenceFlow_09cx1m8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tmt4ka</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:serviceTask id="Task_16697ct" name="Check user balance" camunda:type="external" camunda:topic="check-balance">
       <bpmn:incoming>SequenceFlow_1m33imi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dunx0g</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_1undg8w" name="Deduct balance" camunda:type="external" camunda:topic="deduct-balance">
-      <bpmn:incoming>SequenceFlow_15v9ve0</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_18fyv25</bpmn:outgoing>
-    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_1c4c430" name="Message_3jmop1h" />
-  <bpmn:message id="Message_0eoelo1" name="Message_1k050n4" />
+  <bpmn:message id="Message_0eoelo1" name="wait_user_rate" />
   <bpmn:message id="Message_1w271yb" name="Message_23td6r2" />
   <bpmn:message id="Message_1glee4z" name="Message_3cq8k83" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -174,9 +174,6 @@
           <dc:Bounds x="602" y="577" width="87" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_10o27qa_di" bpmnElement="Task_10o27qa">
-        <dc:Bounds x="861" y="370" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1m33imi_di" bpmnElement="SequenceFlow_1m33imi">
         <di:waypoint x="413" y="545" />
         <di:waypoint x="468" y="545" />
@@ -185,9 +182,6 @@
         <di:waypoint x="568" y="545" />
         <di:waypoint x="620" y="545" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Task_0qlw491_di" bpmnElement="Task_0qlw491">
-        <dc:Bounds x="861" y="505" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1496dpx_di" bpmnElement="SequenceFlow_1496dpx">
         <di:waypoint x="670" y="545" />
         <di:waypoint x="861" y="545" />
@@ -220,9 +214,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1326" y="833" width="72" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0ga691n_di" bpmnElement="Task_0ga691n">
-        <dc:Bounds x="1172" y="761" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_09cx1m8_di" bpmnElement="SequenceFlow_09cx1m8">
         <di:waypoint x="1094" y="725" />
@@ -368,11 +359,20 @@
         <di:waypoint x="1380" y="232" />
         <di:waypoint x="1380" y="392" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_1rt80o0_di" bpmnElement="Task_16697ct">
-        <dc:Bounds x="468" y="505" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_16v6uq1_di" bpmnElement="Task_1undg8w">
         <dc:Bounds x="700" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0o2pni4_di" bpmnElement="Task_10o27qa">
+        <dc:Bounds x="861" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1c2o7cf_di" bpmnElement="Task_0qlw491">
+        <dc:Bounds x="861" y="505" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1lq1n1k_di" bpmnElement="Task_0ga691n">
+        <dc:Bounds x="1172" y="761" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1wby61u_di" bpmnElement="Task_16697ct">
+        <dc:Bounds x="468" y="505" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

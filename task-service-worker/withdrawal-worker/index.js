@@ -1,6 +1,6 @@
 module.exports = {
     validateWithdrawal: require('./validate-withdrawal'),
-    deductBalance: require('./deduct-balance'),
+    deductBalanceWithdrawal: require('./deduct-balance-withdrawal'),
     createTransactionWithdrawal: require('./create-transaction-withdrawal'),
     sendTransactionDetail: require('./send-transaction-detail'),
     notifyFailWithdrawal: require('./notify-fail-withdrawal'),

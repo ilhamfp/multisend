@@ -81,7 +81,7 @@
       <bpmn:incoming>SequenceFlow_0xzq08y</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ynlz1r</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Task_0fszq0a" name="Deduct Balance" camunda:type="external" camunda:topic="deduct-balance">
+    <bpmn:serviceTask id="Task_0fszq0a" name="Deduct Balance" camunda:type="external" camunda:topic="deduct-balance-withdrawal">
       <bpmn:incoming>SequenceFlow_0he6shj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1eqgflw</bpmn:outgoing>
     </bpmn:serviceTask>

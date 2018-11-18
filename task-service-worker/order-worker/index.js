@@ -1,8 +1,9 @@
 module.exports = {
-	validateWithdrawal: require('./validate-withdrawal'),
-    deductBalance: require('./deduct-balance'),
-    createTransactionWithdrawal: require('./create-transaction-withdrawal'),
-    notifyFailWithdrawal: require('./notify-fail-withdrawal'),
-    notifySuccessWithdrawal: require('./notify-success-withdrawal'),
-    refillBalance: require('./refill-balance'),
+    calculateCost: require('./calculate-cost'),
+    checkBalance: require('./check-balance'),
+    deductBalanceOrder: require('./deduct-balance-order'),
+    searchDriver: require('./search-driver'),
+    cancelOrder: require('./cancel-order'),
+    sendOrderStatus: require('./send-order-status'),
+    checkDeliveryCompletionn: require('./check-delivery-completion')
 }
