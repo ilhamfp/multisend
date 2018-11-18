@@ -33,7 +33,7 @@ wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, arg
 place_order_service_url = 'http://127.0.0.1:5005/'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
-tracking_service_url = 'http://127.0.0.1:5007'
+tracking_service_url = 'http://127.0.0.1:5007/'
 tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
 
 
@@ -54,6 +54,7 @@ def balance_proxy(varargs=''):
     if request.method == 'GET':
         response = requests.get(balance_service_url + varargs, headers=request.headers, params=request.args)
     else:
+        print(varargs)
         response = requests.post(balance_service_url + varargs, headers=request.headers, json=request.json)
 
     return response.text, dict(response.headers)

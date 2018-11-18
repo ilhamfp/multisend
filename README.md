@@ -62,5 +62,29 @@ with application/json body
 }
 ```
 
+### Creating User
+Send POST request to http://127.0.0.1:9999/auth with json body as:
+```
+{
+    "email":"customer1@informatika.org",
+    "password":"customer1"
+}
+```
 
+### Deposit Balance
+Send POST request to http://127.0.0.1:9999/balance/deposit with 
+json body as:
+```
+{
+    "amount":50000
+}
+```
 
+### Withdraw Balance
+Send POST request to http://127.0.0.1:9999/balance/withdraw with 
+json body as:
+```
+{
+    "amount":50000
+}
+```

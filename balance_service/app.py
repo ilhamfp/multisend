@@ -86,3 +86,30 @@ def withdraw_balance():
 
     return jsonify(balance.serialize())
 
+@balance_app.route('/deposit', methods=['POST'])
+def deposit_balance():
+    response = requests.get(auth_broker_url, headers=request.headers).json()
+    if response.get('error'):
+        return jsonify({
+            'error': 'User not found'
+        })
+
+    balance = Balance.get_or_none(Balance.user_id == response.get('id'))
+
+    if balance is None:
+        return jsonify({
+            'error': 'Balance for that user is not found'
+        })
+
+    amount = request.json.get('amount')
+
+    if amount < 0:
+        return jsonify({
+            'error': 'Amount must be a non-negative integer'
+        })
+
+    balance.balance += amount
+    balance.save()
+
+    return jsonify(balance.serialize())
+
