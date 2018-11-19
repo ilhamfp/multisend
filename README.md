@@ -149,6 +149,27 @@ with json body
 #### Withdrawal Success Screenshot
 ![](screenshot/withdrawal_success.png)
 
+### Running Deposit BPM
+1. Run python task service
+2. Open 'deposit.bpmn' with Camunda Modeler and deploy it, for simplicity, we won't use tenant id
+3. Send a POST request to 
+```
+http://localhost:8080/engine-rest/process-definition/key/Process_deposit/start
+```
+4. To simulate confirmation or denial from payment gateway, send a POST request to 
+```
+http://localhost:8080/engine-rest/message
+```
+with json body
+```
+{
+    "messageName" : "receive_deposit_confirm",
+    "processVariables" : {
+        "success" : {"value" : <true/false>, "type": "boolean"}
+    }
+}
+```
+
 ## Other
 
 ### Creating User
