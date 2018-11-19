@@ -13,9 +13,9 @@ async function cancelOrder({ task, taskService }) {
     var url = 'http://localhost:5006/?wsdl';
     var args = {
         request:{
-            payment_method : 'BCA',
-            bank_detail : '23523423423',
             secret_key : secret_key,
+            bank_detail : '23523423423',
+            payment_method : 'BCA',
             amount : cost
         }
     };

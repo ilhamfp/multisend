@@ -6,6 +6,7 @@ import requests
 
 BASE_URL = 'http://127.0.0.1:9999/'
 
+ComplexModel.Attributes.declare_order = "declared"
 
 class OrderRequest(ComplexModel):
     sender_secret_key = String
