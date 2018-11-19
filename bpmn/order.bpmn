@@ -150,7 +150,7 @@
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_1c4c430" name="Message_3jmop1h" />
-  <bpmn:message id="Message_0eoelo1" name="wait_user_rate" />
+  <bpmn:message id="Message_0eoelo1" name="wait_rate" />
   <bpmn:message id="Message_1w271yb" name="Message_23td6r2" />
   <bpmn:message id="Message_1glee4z" name="Message_3cq8k83" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">

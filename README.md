@@ -98,7 +98,7 @@ http://localhost:8080/engine-rest/message
 with json body
 ```
 {
-    "messageName" : "wait_user_rate",
+    "messageName" : "wait_rate",
     "tenantId" : "1",
     "processVariables" : {
         "rate" : {"value" : 4, "type": "long"}
