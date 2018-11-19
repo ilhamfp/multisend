@@ -38,6 +38,18 @@ client.subscribe('notify-fail-withdrawal', notifyFailWithdrawal);
 client.subscribe('notify-success-withdrawal', notifySuccessWithdrawal);
 client.subscribe('refill-balance', refillBalance);
 
-// const {
-//       } = require('./deposit-worker');
+const {
+      createTransactionDeposit,
+      sendDepositDetail,
+      addBalance,
+      notifySuccessDeposit,
+      notifyFailDeposit
+      } = require('./deposit-worker');
+
+client.subscribe('create-transaction-deposit', createTransactionDeposit)
+client.subscribe('send-deposit-detail', sendDepositDetail)
+client.subscribe('add-balance', addBalance)
+client.subscribe('notify-success-deposit', notifySuccessDeposit)
+client.subscribe('notify-fail-deposit', notifyFailDeposit)
+
 
