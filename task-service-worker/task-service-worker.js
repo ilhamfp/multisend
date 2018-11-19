@@ -40,14 +40,14 @@ client.subscribe('refill-balance', refillBalance);
 
 const {
       createTransactionDeposit,
-      sendTransactionDetail,
+      sendDepositDetail,
       addBalance,
       notifySuccessDeposit,
       notifyFailDeposit
       } = require('./deposit-worker');
 
 client.subscribe('create-transaction-deposit', createTransactionDeposit)
-client.subscribe('send-transaction-detail', sendTransactionDetail)
+client.subscribe('send-deposit-detail', sendDepositDetail)
 client.subscribe('add-balance', addBalance)
 client.subscribe('notify-success-deposit', notifySuccessDeposit)
 client.subscribe('notify-fail-deposit', notifyFailDeposit)

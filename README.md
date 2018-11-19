@@ -154,7 +154,22 @@ with json body
 2. Open 'deposit.bpmn' with Camunda Modeler and deploy it, for simplicity, we won't use tenant id
 3. Send a POST request to 
 ```
-http://localhost:8080/engine-rest/process-definition/key/Process_deposit/start
+http://localhost:8080/engine-rest/process-definition/key/deposit-process/start
+```
+with json body  
+```
+{
+    "variables": {
+        "secret_key":{
+            "value":"vIywNgjTJTNwIHZCXyHTZgfBepWwCx",
+            "type":"string"
+        },
+        "amount": {
+            "value":<amount>,
+            "type":"long"
+        }
+    }
+}
 ```
 4. To simulate confirmation or denial from payment gateway, send a POST request to 
 ```
@@ -169,6 +184,9 @@ with json body
     }
 }
 ```
+
+#### Deposit Success Screenshot
+![](screenshot/deposit_success.png)
 
 ## Other
 

@@ -2,7 +2,7 @@ const { Variables } = require('camunda-external-task-client-js');
 const request = require('request');
 var soap = require('soap');
 
-async function sendTransactionDetail({ task, taskService }) {
+async function sendDepositDetail({ task, taskService }) {
 	let secret_key = task.variables.get('secret_key');
 	let amount = task.variables.get('amount');
 	let processVariables = new Variables();
@@ -15,4 +15,4 @@ async function sendTransactionDetail({ task, taskService }) {
 	console.log("Waiting for confirmation from payment gateway...");
 }
 
-module.exports = sendTransactionDetail;
+module.exports = sendDepositDetail;
