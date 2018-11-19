@@ -1,6 +1,9 @@
-# Tugas Besar PPLBS
+# Tugas Besar PPLBS: Logistic Service
 
-Tugas besar Pembangunan Perangkat Lunak Berorientasi Service  
+Tugas besar Pembangunan Perangkat Lunak Berorientasi Service 2018  
+* Senapati Sang Diwangkara / 13516107  
+* Gabriel Bentara Raphael / 13516119  
+* Ilham Firdausi Putra / 13516140  
 
 ## How to test each task service
 1. Run
