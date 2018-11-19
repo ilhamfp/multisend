@@ -15,9 +15,9 @@ async function deductBalanceOrder({ task, taskService }) {
 	var args = {
 		request:{
 			payment_method : 'BCA',
-			bank_detail : '23523423423',
 			secret_key : secret_key,
-			amount : cost
+			amount : cost,
+			bank_detail : '23523423423',
 		}
 	};
 	soap.createClient(url, function(err, client) {

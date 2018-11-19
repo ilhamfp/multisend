@@ -46,43 +46,6 @@ python app.py
 ```
 2. Run Camunda BPM
 
-### Running Withdrawal BPM
-1. Open 'withdrawal.bpmn' on Camunda Modeler and deploy as 'Withdrawal Service' with tenant id 1.
-2. Open Postman, send POST request to 
-```
-http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/1/start
-```
-with json body  
-```
-{
-    "variables": {
-        "secret_key":{
-            "value":"vIywNgjTJTNwIHZCXyHTZgfBepWwCx",
-            "type":"string"
-        },
-        "amount": {
-            "value":1000,
-            "type":"long"
-        }
-    }
-}
-```
-
-3. For the intermediate catch even: open Postman, send POST request to
-```
-http://localhost:8080/engine-rest/message
-```
-with json body
-```
-{
-    "messageName" : "receive_confirmation",
-    "tenantId" : "1",
-    "processVariables" : {
-        "success" : {"value" : true, "type": "boolean"}
-    }
-}
-```
-
 ### Running Order BPM
 1. Open 'order.bpmn' on Camunda Modeler and deploy as 'Order Service' with tenant id 1.
 2. Open Postman, send POST request to 
@@ -139,6 +102,49 @@ with json body
     }
 }
 ```
+
+#### Order Success Screenshot
+![](screenshot/order_success.png)
+
+### Running Withdrawal BPM
+1. Open 'withdrawal.bpmn' on Camunda Modeler and deploy as 'Withdrawal Service' with tenant id 2.
+2. Open Postman, send POST request to 
+```
+http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/2/start
+```
+with json body  
+```
+{
+    "variables": {
+        "secret_key":{
+            "value":"vIywNgjTJTNwIHZCXyHTZgfBepWwCx",
+            "type":"string"
+        },
+        "amount": {
+            "value":1000,
+            "type":"long"
+        }
+    }
+}
+```
+
+3. For the intermediate catch even: open Postman, send POST request to
+```
+http://localhost:8080/engine-rest/message
+```
+with json body
+```
+{
+    "messageName" : "receive_confirmation",
+    "tenantId" : "2",
+    "processVariables" : {
+        "success" : {"value" : true, "type": "boolean"}
+    }
+}
+```
+
+#### Withdrawal Success Screenshot
+![](screenshot/withdrawal_success.png)
 
 ## Other
 

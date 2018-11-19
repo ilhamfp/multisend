@@ -19,11 +19,11 @@ print(logistic_client.last_sent())
 
 print("\n\n~~wallet~~")
 logistic_client = Client('http://localhost:5006/?wsdl')
-# balance_request = logistic_client.factory.create("s0:BalanceRequest")
-# balance_request.secret_key = 'vIywNgjTJTNwIHZCXyHTZgfBepWwCx'
-# print(logistic_client.service.get_balance(balance_request))
-# print(logistic_client.last_received())
-# print(logistic_client.last_sent())
+balance_request = logistic_client.factory.create("s0:BalanceRequest")
+balance_request.secret_key = 'vIywNgjTJTNwIHZCXyHTZgfBepWwCx'
+print(logistic_client.service.get_balance(balance_request))
+print(logistic_client.last_received())
+print(logistic_client.last_sent())
 
 
 withdraw_request = logistic_client.factory.create("s0:WithdrawRequest")

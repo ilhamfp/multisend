@@ -14,8 +14,8 @@ async function refillBalance({ task, taskService }) {
 		request:{
 			payment_method : 'BCA',
 			secret_key : secret_key,
+			amount : amount,
 			bank_detail : '23523423423',
-			amount : amount
 		}
 	};
 	soap.createClient(url, function(err, client) {

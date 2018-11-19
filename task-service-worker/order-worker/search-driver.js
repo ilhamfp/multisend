@@ -14,14 +14,13 @@ async function searchDriver({ task, taskService }) {
     var args = {
         order_requests:{
             OrderRequest:{
-                sender_secret_key : secret_key,
+                from_lat : task.variables.get('from_lat'),
                 weight : task.variables.get('weight'),
                 destination : task.variables.get('destination'),
-                additional_detail : task.variables.get('additional_detail'),
-                receiver_name : task.variables.get('receiver_name'),
-                from_lat : task.variables.get('from_lat'),
                 from_lng : task.variables.get('from_lng'),
-
+                receiver_name : task.variables.get('receiver_name'),
+                additional_detail : task.variables.get('additional_detail'),
+                sender_secret_key : secret_key,
             }
         }
     };
