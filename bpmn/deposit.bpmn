@@ -22,7 +22,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_19b0okp" name="fail" sourceRef="ExclusiveGateway_1d14rrh" targetRef="IntermediateThrowEvent_0uypdx8">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!success}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0aiqkq7" sourceRef="ExclusiveGateway_1d14rrh" targetRef="Task_1fpc7ps">
+    <bpmn:sequenceFlow id="SequenceFlow_0aiqkq7" name="success" sourceRef="ExclusiveGateway_1d14rrh" targetRef="Task_1fpc7ps">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${success}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_1cqcve3" name="Fail">
@@ -157,6 +157,9 @@
       <bpmndi:BPMNEdge id="SequenceFlow_0aiqkq7_di" bpmnElement="SequenceFlow_0aiqkq7">
         <di:waypoint x="1202" y="256" />
         <di:waypoint x="1264" y="256" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1213" y="238" width="41" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateThrowEvent_0f9ni9a_di" bpmnElement="IntermediateThrowEvent_06bzitf">
         <dc:Bounds x="1433" y="238" width="36" height="36" />
