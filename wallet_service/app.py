@@ -8,6 +8,7 @@ BASE_URL = 'http://127.0.0.1:9999/'
 
 ComplexModel.Attributes.declare_order = "declared"
 
+
 class BalanceRequest(ComplexModel):
     secret_key = String
 
@@ -31,6 +32,10 @@ class NotificationResponse(ComplexModel):
     current_balance = Integer
 
 
+class PaymentGatewayResponse(ComplexModel):
+    status = String
+
+
 class WalletService(ServiceBase):
     @rpc(BalanceRequest, _returns=NotificationResponse)
     def get_balance(ctx, request):
@@ -43,40 +48,79 @@ class WalletService(ServiceBase):
 
     @rpc(WithdrawRequest, _returns=NotificationResponse)
     def withdraw(ctx, request):
-        print(request)
         data = {
-            "bank": request.bank_detail,
-            "payment_method": request.payment_method,
-            "amount": request.amount
+            "variables": {
+                "secret_key":{
+                    "value": request.secret_key,
+                    "type":"string"
+                },
+                "amount": {
+                    "value": request.amount,
+                    "type":"long"
+                }
+            }
         }
 
-        r = requests.post(BASE_URL + "balance/withdraw", headers={'Authorization': request.secret_key}, json=data)
+        r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
         result = r.json()
-        if result.get('error') is None:
-            r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
-            result = r.json()
-            return NotificationResponse(
-                status="Success",
-                current_balance=result['balance']
-            )
+
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/2/start', data=data)
+        return NotificationResponse(
+            status="Success",
+            current_balance=result['balance'] - request.amount
+        )
+
+    @rpc(WithdrawRequest, _returns=PaymentGatewayResponse)
+    def confirm_withdraw(ctx, request):
+        data = {
+            "messageName" : "receive_confirmation",
+            "tenantId" : "2",
+            "processVariables" : {
+                "success" : {"value" : True, "type": "boolean"}
+            }
+        }
+
+        r = requests.post('http://localhost:8080/engine-rest/message', data=data)
+
+        return PaymentGatewayResponse(status="Success")
 
     @rpc(DepositRequest, _returns=NotificationResponse)
     def deposit(ctx, request):
-        print(request)
         data = {
-            "bank": request.bank_detail,
-            "payment_method": request.payment_method,
-            "amount": request.amount
+            "variables": {
+                "secret_key": {
+                    "value": request.secret_key,
+                    "type": "string"
+                },
+                "amount": {
+                    "value": request.amount,
+                    "type": "long"
+                }
+            }
         }
-        r = requests.post(BASE_URL + "balance/deposit", headers={'Authorization': request.secret_key}, json=data)
+
+        r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
         result = r.json()
-        if result.get('error') is None:
-            r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
-            result = r.json()
-            return NotificationResponse(
-                status="Success",
-                current_balance=result['balance']
-            )
+
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/deposit-process/start',
+                          data=data)
+        return NotificationResponse(
+            status="Success",
+            current_balance=result['balance'] + request.amount
+        )
+
+    @rpc(DepositRequest, _returns=PaymentGatewayResponse)
+    def confirm_deposit(ctx, request):
+        data = {
+            "messageName" : "receive_deposit_confirm",
+            "processVariables" : {
+                "success" : {"value" : True, "type": "boolean"}
+            }
+        }
+
+        r = requests.post('http://localhost:8080/engine-rest/message', data=data)
+
+        return PaymentGatewayResponse(status="Success")
 
 
 wallet_app = Application([WalletService],

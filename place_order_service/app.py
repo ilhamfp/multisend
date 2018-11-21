@@ -8,6 +8,7 @@ BASE_URL = 'http://127.0.0.1:9999/'
 
 ComplexModel.Attributes.declare_order = "declared"
 
+
 class OrderRequest(ComplexModel):
     sender_secret_key = String
     from_lat = Double
@@ -26,7 +27,7 @@ class OrderResponse(ComplexModel):
 class OrderService(ServiceBase):
     @rpc(Iterable(OrderRequest), _returns=Iterable(OrderResponse))
     def place_order(ctx, order_requests):
-        order_requests = list(order_requests)
+        '''order_requests = list(order_requests)
         grouped_requests = {}
         for order_request in order_requests:
             if grouped_requests.get(order_request.sender_secret_key) is None:
@@ -70,7 +71,47 @@ class OrderService(ServiceBase):
                         order_unique_id=response['unique_id']
                     ))
 
-        return responses
+        return responses'''
+
+        data = {
+            "variables": {
+                "secret_key":{
+                    "value": order_requests[0].sender_secret_key,
+                    "type":"string"
+                },
+                "from_lat": {
+                    "value": order_requests[0].from_lat,
+                    "type":"double"
+                },
+                "from_lng": {
+                    "value": order_requests[0].from_lng,
+                    "type":"double"
+                },
+                "destination": {
+                    "value": order_requests[0].destination,
+                    "type":"string"
+                },
+                "weight": {
+                    "value": order_requests[0].weight,
+                    "type":"double"
+                },
+                "receiver_name": {
+                    "value": order_requests[0].receiver_name,
+                    "type":"string"
+                },
+                "additional_detail": {
+                    "value": order_requests[0].additional_detail,
+                    "type":"string"
+                }
+            }
+        }
+
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/1/start', data=data)
+
+        return [OrderResponse(
+            status="Success",
+            order_unique_id='to be implemented'
+        )]
 
 
 place_order_app = Application([OrderService],

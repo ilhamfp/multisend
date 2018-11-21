@@ -80,7 +80,6 @@ def withdraw_balance():
         return jsonify({
             'error': 'Balance not enough'
         })
-
     balance.balance -= amount
     balance.save()
 
