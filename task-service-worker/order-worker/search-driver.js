@@ -1,6 +1,7 @@
 const { Variables } = require('camunda-external-task-client-js');
 const request = require('request');
 var soap = require('soap');
+BASE_URL = 'http://127.0.0.1:9999/';
 
 async function searchDriver({ task, taskService }) {
     let processVariables = new Variables();
@@ -10,6 +11,7 @@ async function searchDriver({ task, taskService }) {
     let secret_key = task.variables.get('secret_key');
     let cost = task.variables.get('cost');
 
+    // Komen di bawah merupakan peninggalan sebelum diganti ke REST
     var url = 'http://localhost:5005/?wsdl';
     var args = {
         order_requests:{
