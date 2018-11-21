@@ -91,21 +91,6 @@ with json body
 }
 ```
 
-3. For the intermediate catch even: open Postman, send POST request to
-```
-http://localhost:8080/engine-rest/message
-```
-with json body
-```
-{
-    "messageName" : "wait_rate",
-    "tenantId" : "1",
-    "processVariables" : {
-        "rate" : {"value" : 4, "type": "long"}
-    }
-}
-```
-
 #### Order Success Screenshot
 ![](screenshot/order_success.png)
 
@@ -126,6 +111,14 @@ with json body
         "amount": {
             "value":1000,
             "type":"long"
+        },
+        "bank": {
+            "value":"23523423423",
+            "type":"string"
+        },
+        "payment_method": {
+            "value":"Transfer BCA",
+            "type":"string"
         }
     }
 }
@@ -165,8 +158,16 @@ with json body
             "type":"string"
         },
         "amount": {
-            "value":<amount>,
+            "value":1000,
             "type":"long"
+        },
+        "bank": {
+            "value":"23523423423",
+            "type":"string"
+        },
+        "payment_method": {
+            "value":"Transfer BCA",
+            "type":"string"
         }
     }
 }

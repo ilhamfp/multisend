@@ -23,8 +23,8 @@ async function addBalance({ task, taskService }) {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
-                                "bank" : '23523423423',
-                                "payment_method" : 'BCA',
+                                "bank" : bank,
+                                "payment_method" : payment_method,
                                 "amount" : amount
                             })
     };
