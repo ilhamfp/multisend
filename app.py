@@ -8,6 +8,7 @@ from customer_service.app import *
 from employee_service.app import *
 from order_service.app import *
 from place_order_service.app import *
+from tracking_service.app import *
 from wallet_service.app import *
 
 app = Flask(__name__)
@@ -26,11 +27,14 @@ employee_service_thread = threading.Thread(target=employee_app.run, args=[], kwa
 order_service_url = 'http://127.0.0.1:5004/'
 order_service_thread = threading.Thread(target=order_app.run, args=[], kwargs={'host': '127.0.0.1', 'port': 5004,  'threaded': True})
 
+wallet_service_url = 'http://127.0.0.1:5006/'
+wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
+
 place_order_service_url = 'http://127.0.0.1:5005/'
 place_order_service_thread = threading.Thread(target=place_order_server.serve_forever, args=[], kwargs={})
 
-wallet_service_url = 'http://127.0.0.1:5006/'
-wallet_service_thread = threading.Thread(target=wallet_server.serve_forever, args=[], kwargs={})
+tracking_service_url = 'http://127.0.0.1:5007/'
+tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -50,6 +54,7 @@ def balance_proxy(varargs=''):
     if request.method == 'GET':
         response = requests.get(balance_service_url + varargs, headers=request.headers, params=request.args)
     else:
+        print(varargs)
         response = requests.post(balance_service_url + varargs, headers=request.headers, json=request.json)
 
     return response.text, dict(response.headers)
@@ -108,6 +113,15 @@ def wallet_proxy():
     return response.text, dict(response.headers)
 
 
+@app.route('/tracking', methods=['GET', 'POST'])
+def tracking_proxy():
+    if request.method == 'GET':
+        response = requests.get(tracking_service_url + '?wsdl', headers=request.headers)
+    else:
+        response = requests.post(tracking_service_url, headers=request.headers, data=request.data)
+
+    return response.text, dict(response.headers)
+
 if __name__ == '__main__':
     auth_broker_thread.start()
     balance_service_thread.start()
@@ -115,4 +129,6 @@ if __name__ == '__main__':
     employee_service_thread.start()
     order_service_thread.start()
     place_order_service_thread.start()
+    wallet_service_thread.start()
+    tracking_service_thread.start()
     app.run(host='127.0.0.1', port=9999, threaded=True)

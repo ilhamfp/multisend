@@ -6,6 +6,7 @@ import requests
 
 BASE_URL = 'http://127.0.0.1:9999/'
 
+ComplexModel.Attributes.declare_order = "declared"
 
 class BalanceRequest(ComplexModel):
     secret_key = String
@@ -42,6 +43,7 @@ class WalletService(ServiceBase):
 
     @rpc(WithdrawRequest, _returns=NotificationResponse)
     def withdraw(ctx, request):
+        print(request)
         data = {
             "bank": request.bank_detail,
             "payment_method": request.payment_method,
@@ -60,16 +62,25 @@ class WalletService(ServiceBase):
 
     @rpc(DepositRequest, _returns=NotificationResponse)
     def deposit(ctx, request):
-        r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
+        print(request)
+        data = {
+            "bank": request.bank_detail,
+            "payment_method": request.payment_method,
+            "amount": request.amount
+        }
+        r = requests.post(BASE_URL + "balance/deposit", headers={'Authorization': request.secret_key}, json=data)
         result = r.json()
-        return NotificationResponse(
-            status="Success",
-            current_balance=result['balance']
-        )
+        if result.get('error') is None:
+            r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
+            result = r.json()
+            return NotificationResponse(
+                status="Success",
+                current_balance=result['balance']
+            )
 
 
 wallet_app = Application([WalletService],
-                         tns='soa.logistic.order',
+                         tns='soa.logistic.wallet',
                          in_protocol=Soap11(validator='lxml'),
                          out_protocol=Soap11()
 )
