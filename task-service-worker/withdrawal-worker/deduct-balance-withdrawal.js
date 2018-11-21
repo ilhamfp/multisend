@@ -4,10 +4,14 @@ var soap = require('soap');
 
 async function deductBalance({ task, taskService }) {
 	let secret_key = task.variables.get('secret_key');
-	let amount = task.variables.get('amount');
-	let processVariables = new Variables();
-	processVariables.set('secret_key', secret_key);
-	processVariables.set('amount', amount);
+    let amount = task.variables.get('amount');
+    let bank = task.variables.get('bank');
+    let payment_method = task.variables.get('payment_method');
+    let processVariables = new Variables();
+    processVariables.set('secret_key', secret_key);
+    processVariables.set('amount', amount);
+    processVariables.set('bank', bank);
+    processVariables.set('payment_method', payment_method);
 
 	const headers = {
         'Content-Type': 'application/json',
@@ -19,8 +23,8 @@ async function deductBalance({ task, taskService }) {
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
-                                "bank" : '23523423423',
-                                "payment_method" : 'BCA',
+                                "bank" : bank,
+                                "payment_method" : payment_method,
                                 "amount" : amount
                             })
     };
