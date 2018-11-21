@@ -2,8 +2,8 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0yasndu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
   <bpmn:collaboration id="Collaboration_1kddles">
     <bpmn:participant id="Participant_0b7olg9" name="Balance" processRef="deposit-process" />
-    <bpmn:participant id="Participant_0qykaj9" name="Payment Gateway" processRef="Process_0qlosyc" />
-    <bpmn:participant id="Participant_0m9u5a5" name="Customer" processRef="Process_1co1lyf" />
+    <bpmn:participant id="Participant_0qykaj9" name="Payment Gateway" />
+    <bpmn:participant id="Participant_0m9u5a5" name="Customer" />
     <bpmn:messageFlow id="MessageFlow_1ql2k1m" sourceRef="IntermediateThrowEvent_0qma32a" targetRef="Participant_0qykaj9" />
     <bpmn:messageFlow id="MessageFlow_1d1vwab" sourceRef="Participant_0m9u5a5" targetRef="StartEvent_1" />
     <bpmn:messageFlow id="MessageFlow_1qjnbls" sourceRef="Participant_0qykaj9" targetRef="IntermediateThrowEvent_1dr58wr" />
@@ -68,8 +68,6 @@
       <bpmn:outgoing>SequenceFlow_08g8yx3</bpmn:outgoing>
     </bpmn:serviceTask>
   </bpmn:process>
-  <bpmn:process id="Process_0qlosyc" isExecutable="false" />
-  <bpmn:process id="Process_1co1lyf" isExecutable="false" />
   <bpmn:message id="Message_1cn1h68" name="Message_2uhi8ji" />
   <bpmn:message id="Message_1daq6mj" name="receive_deposit_confirm" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -97,16 +95,10 @@
         <di:waypoint x="647" y="256" />
         <di:waypoint x="784" y="256" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Participant_0qykaj9_di" bpmnElement="Participant_0qykaj9">
-        <dc:Bounds x="351" y="-40" width="1291" height="141" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_1ql2k1m_di" bpmnElement="MessageFlow_1ql2k1m">
         <di:waypoint x="802" y="238" />
         <di:waypoint x="802" y="101" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Participant_0m9u5a5_di" bpmnElement="Participant_0m9u5a5">
-        <dc:Bounds x="351" y="450" width="1292" height="169" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_1d1vwab_di" bpmnElement="MessageFlow_1d1vwab">
         <di:waypoint x="435" y="450" />
         <di:waypoint x="435" y="274" />
@@ -196,6 +188,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_12q0e8m_di" bpmnElement="Task_1fpc7ps">
         <dc:Bounds x="1264" y="216" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1wrgprh_di" bpmnElement="Participant_0qykaj9">
+        <dc:Bounds x="351" y="-40" width="1291" height="141" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0uwokt4_di" bpmnElement="Participant_0m9u5a5">
+        <dc:Bounds x="351" y="450" width="1292" height="169" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
