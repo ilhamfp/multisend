@@ -40,6 +40,8 @@ async function cancelOrder({ task, taskService }) {
                     console.log("Order canceled");
                     console.log("Current balance is refilled by: " + cost);
                     console.log("Current balance is: " + current_balance);
+                    console.log("Order canceled");
+                    processVariables.set('deliveryComplete', false);
                     taskService.complete(task, processVariables, null);
                 } else {
                     console.log(response.error);
@@ -50,6 +52,8 @@ async function cancelOrder({ task, taskService }) {
         });
     } else {
         console.log("Order canceled");
+        processVariables.set('deliveryComplete', false);
+        taskService.complete(task, processVariables, null);
     }
     
 
