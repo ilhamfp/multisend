@@ -3,6 +3,7 @@ from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
 from wsgiref.simple_server import make_server
 import requests
+from time import sleep
 
 BASE_URL = 'http://127.0.0.1:9999/'
 
@@ -72,6 +73,7 @@ class OrderService(ServiceBase):
                     ))
 
         return responses'''
+        order_requests = list(order_requests)
 
         data = {
             "variables": {
@@ -106,11 +108,14 @@ class OrderService(ServiceBase):
             }
         }
 
-        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/1/start', data=data)
-
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/1/start', json=data)
+        r = r.json()
+        sleep(2)
+        r  = requests.get('http://localhost:9999/order', headers={'Authorization' : order_requests[0].sender_secret_key})
+        r = r.json()
         return [OrderResponse(
             status="Success",
-            order_unique_id='to be implemented'
+            order_unique_id=r[-1]['unique_id']
         )]
 
 

@@ -11,7 +11,7 @@
     <bpmn:messageFlow id="MessageFlow_0vcknbf" sourceRef="IntermediateThrowEvent_0sdhc0c" targetRef="Participant_0m9u5a5" />
     <bpmn:messageFlow id="MessageFlow_0fde243" sourceRef="Participant_0qykaj9" targetRef="IntermediateThrowEvent_1dr58wr" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1" name="Balance Service" isExecutable="true">
+  <bpmn:process id="Process_1" name="Withdrawal Service" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_1eqgflw" sourceRef="Task_0fszq0a" targetRef="Task_0cpewlq" />
     <bpmn:sequenceFlow id="SequenceFlow_0xzq08y" sourceRef="StartEvent_1" targetRef="Task_09abpy1" />
     <bpmn:sequenceFlow id="SequenceFlow_1csrf6n" sourceRef="Task_0cpewlq" targetRef="IntermediateThrowEvent_0qma32a" />

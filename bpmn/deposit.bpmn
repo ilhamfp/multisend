@@ -10,7 +10,7 @@
     <bpmn:messageFlow id="MessageFlow_1qd998q" sourceRef="IntermediateThrowEvent_0uypdx8" targetRef="Participant_0m9u5a5" />
     <bpmn:messageFlow id="MessageFlow_0lm99ak" sourceRef="IntermediateThrowEvent_06bzitf" targetRef="Participant_0m9u5a5" />
   </bpmn:collaboration>
-  <bpmn:process id="deposit-process" isExecutable="true">
+  <bpmn:process id="deposit-process" name="Deposit Service" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_0xzq08y" sourceRef="StartEvent_1" targetRef="Task_0cpewlq" />
     <bpmn:sequenceFlow id="SequenceFlow_1csrf6n" sourceRef="Task_0cpewlq" targetRef="IntermediateThrowEvent_0qma32a" />
     <bpmn:sequenceFlow id="SequenceFlow_0xt2chl" sourceRef="IntermediateThrowEvent_0qma32a" targetRef="IntermediateThrowEvent_1dr58wr" />

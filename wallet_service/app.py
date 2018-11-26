@@ -55,8 +55,16 @@ class WalletService(ServiceBase):
                     "type":"string"
                 },
                 "amount": {
-                    "value": request.amount,
+                    "value":request.amount,
                     "type":"long"
+                },
+                "bank": {
+                    "value":request.bank_detail,
+                    "type":"string"
+                },
+                "payment_method": {
+                    "value":request.payment_method,
+                    "type":"string"
                 }
             }
         }
@@ -64,7 +72,7 @@ class WalletService(ServiceBase):
         r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
         result = r.json()
 
-        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/2/start', data=data)
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/Process_1/tenant-id/2/start', json=data)
         return NotificationResponse(
             status="Success",
             current_balance=result['balance'] - request.amount
@@ -75,12 +83,15 @@ class WalletService(ServiceBase):
         data = {
             "messageName" : "receive_confirmation",
             "tenantId" : "2",
+            "correlationKeys" : {
+                    "bank" : {"value" : request.bank_detail, "type": "String"}
+                  },
             "processVariables" : {
-                "success" : {"value" : True, "type": "boolean"}
+                "success" : {"value" : "true", "type": "boolean"}
             }
         }
 
-        r = requests.post('http://localhost:8080/engine-rest/message', data=data)
+        r = requests.post('http://localhost:8080/engine-rest/message', json=data)
 
         return PaymentGatewayResponse(status="Success")
 
@@ -88,13 +99,21 @@ class WalletService(ServiceBase):
     def deposit(ctx, request):
         data = {
             "variables": {
-                "secret_key": {
+                "secret_key":{
                     "value": request.secret_key,
-                    "type": "string"
+                    "type":"string"
                 },
                 "amount": {
-                    "value": request.amount,
-                    "type": "long"
+                    "value":request.amount,
+                    "type":"long"
+                },
+                "bank": {
+                    "value":request.bank_detail,
+                    "type":"string"
+                },
+                "payment_method": {
+                    "value":request.payment_method,
+                    "type":"string"
                 }
             }
         }
@@ -102,8 +121,8 @@ class WalletService(ServiceBase):
         r = requests.get(BASE_URL + "balance", headers={'Authorization': request.secret_key})
         result = r.json()
 
-        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/deposit-process/start',
-                          data=data)
+        r = requests.post('http://localhost:8080/engine-rest/process-definition/key/deposit-process/tenant-id/3/start',
+                          json=data)
         return NotificationResponse(
             status="Success",
             current_balance=result['balance'] + request.amount
@@ -113,12 +132,16 @@ class WalletService(ServiceBase):
     def confirm_deposit(ctx, request):
         data = {
             "messageName" : "receive_deposit_confirm",
+            "tenantId" : "3",
+            "correlationKeys" : {
+                    "bank" : {"value" : request.bank_detail, "type": "String"}
+                  },
             "processVariables" : {
-                "success" : {"value" : True, "type": "boolean"}
+                "success" : {"value" : "true", "type": "boolean"}
             }
         }
 
-        r = requests.post('http://localhost:8080/engine-rest/message', data=data)
+        r = requests.post('http://localhost:8080/engine-rest/message', json=data)
 
         return PaymentGatewayResponse(status="Success")
 
