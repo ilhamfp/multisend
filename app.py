@@ -36,6 +36,13 @@ place_order_service_thread = threading.Thread(target=place_order_server.serve_fo
 tracking_service_url = 'http://127.0.0.1:5007/'
 tracking_service_thread = threading.Thread(target=tracking_server.serve_forever, args=[], kwargs={})
 
+@app.route('/')
+def home():
+    html = 'Tracking : /tracking?wsdl<br>'
+    html += 'Wallet : /wallet?wsdl<br>'
+    html += 'Place Order : /place-order?wsdl<br>
+
+    return html
 
 @app.route('/auth', methods=['GET', 'POST'])
 @app.route('/auth/<path:varargs>', methods=['GET', 'POST'])
@@ -131,4 +138,4 @@ if __name__ == '__main__':
     place_order_service_thread.start()
     wallet_service_thread.start()
     tracking_service_thread.start()
-    app.run(host='127.0.0.1', port=9999, threaded=True)
+    app.run(host='0.0.0.0', port=9999, threaded=True)
