@@ -2,6 +2,8 @@ const { Client, logger } = require('camunda-external-task-client-js');
 const config = { baseUrl: 'http://localhost:8080/engine-rest'};
 const client = new Client(config);
 
+console.log("Task service worker..");
+
 const { 
       calculateCost,
       checkBalance,

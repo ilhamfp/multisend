@@ -40,7 +40,7 @@ tracking_service_thread = threading.Thread(target=tracking_server.serve_forever,
 def home():
     html = 'Tracking : /tracking?wsdl<br>'
     html += 'Wallet : /wallet?wsdl<br>'
-    html += 'Place Order : /place-order?wsdl<br>
+    html += 'Place Order : /place-order?wsdl<br>'
 
     return html
 

@@ -11,6 +11,10 @@ async function sendOrderStatus({ task, taskService }) {
     if (task.variables.get('deliveryComplete')) {
         emailText = "Success";
     }
+
+    emailText += "\n"+"Order Unique ID: "+task.variables.get("unique_id");
+    emailText += "\n"+"Receiver Name: "+task.variables.get("receiver_name");
+    emailText += "\n"+"Additional Detail: "+task.variables.get("additional_detail");
     var nodemailer = require('nodemailer');
 
     var transporter = nodemailer.createTransport({

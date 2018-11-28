@@ -131,7 +131,7 @@ class WalletService(ServiceBase):
     @rpc(DepositRequest, _returns=PaymentGatewayResponse)
     def confirm_deposit(ctx, request):
         data = {
-            "messageName" : "receive_deposit_confirm",
+            "messageName" : "receive_deposit",
             "tenantId" : "3",
             "correlationKeys" : {
                     "bank" : {"value" : request.bank_detail, "type": "String"}

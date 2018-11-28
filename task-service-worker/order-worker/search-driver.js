@@ -45,6 +45,7 @@ async function searchDriver({ task, taskService }) {
             if (!response.error) {
                 order_unique_id = response.unique_id
                 processVariables.set('found', true);
+                processVariables.set('unique_id', order_unique_id);
                 console.log("The order unique_id is: "+order_unique_id)
                 taskService.complete(task, processVariables, null);
             } else {

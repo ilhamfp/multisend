@@ -1,5 +1,7 @@
 # Tugas Besar PPLBS: Logistic Service
 
+Laporan FINAL: https://docs.google.com/document/d/199xCxsRQcUYsWxhKW_oPHQgdjVXhseQAU3h6CRDBGCY/edit#  
+
 Tugas besar Pembangunan Perangkat Lunak Berorientasi Service 2018  
 * Senapati Sang Diwangkara / 13516107  
 * Gabriel Bentara Raphael / 13516119  
@@ -16,7 +18,14 @@ python app.py
 ```
 3. Run
 ```
-python test_task_service.py
+python test_task_order.py
+```
+or
+```
+python test_task_wallet.py
+```
+```
+python test_task_tracking.py
 ```
 
 ## How to run BPM
@@ -190,30 +199,4 @@ with json body
 ![](screenshot/deposit_success.png)
 
 ## Other
-
-### Creating User
-Send POST request to http://127.0.0.1:9999/auth with json body as:
-```
-{
-    "email":"customer1@informatika.org",
-    "password":"customer1"
-}
-```
-
-### Deposit Balance
-Send POST request to http://127.0.0.1:9999/balance/deposit with 
-json body as:
-```
-{
-    "amount":50000
-}
-```
-
-### Withdraw Balance
-Send POST request to http://127.0.0.1:9999/balance/withdraw with 
-json body as:
-```
-{
-    "amount":50000
-}
-```
+See laporan final.  

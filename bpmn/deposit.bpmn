@@ -49,7 +49,7 @@
     <bpmn:endEvent id="EndEvent_04fqe3t" name="Success">
       <bpmn:incoming>SequenceFlow_1kst4bk</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_0qma32a" name="Send Transaction Detailp">
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_0qma32a" name="Send Transaction Detail">
       <bpmn:incoming>SequenceFlow_1csrf6n</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0xt2chl</bpmn:outgoing>
       <bpmn:messageEventDefinition camunda:type="external" camunda:topic="send-deposit-detail" />
@@ -69,7 +69,7 @@
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_1cn1h68" name="Message_2uhi8ji" />
-  <bpmn:message id="Message_1daq6mj" name="receive_deposit_confirm" />
+  <bpmn:message id="Message_1daq6mj" name="receive_deposit" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1kddles">
       <bpmndi:BPMNShape id="Participant_0b7olg9_di" bpmnElement="Participant_0b7olg9">
