@@ -12,6 +12,6 @@
   "dependencies": {
     "camunda-external-task-client-js": "^1.1.0-alpha1",
     "nodemailer": "^4.7.0",
-    "soap": "^0.25.0"
+    "soap": "^0.45.0"
   }
 }
